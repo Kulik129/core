@@ -1,0 +1,33 @@
+#javac -sourcepath ./java -d out java/ru/geekbrains/lesson1/sample/Main.java
+#java -classpath ./out re.geekbrains.lesson1.sample.Main
+#javadoc -d doks -sorcepath ./java -cp ./out -subpackages ru
+#
+#Скрипт Docker:
+#
+#FROM bellsoft/liberica-openjdk-alpine:11.0.16
+#COPY ./java ./src
+#RUN mkdir ./out
+#RUN javac -sourcepath ./src -d out src/ru/geekbrains/lesson1/sample/Main.java
+#CMD java -classpath ./out ru.geekbrains.lesson1.sample.Main
+#
+#>>Создать контейнер: docker build . -t myjavaapp2
+#>>Запуск скрипта из консоли / терминала: docker run myjavaapp2:latest
+#
+#
+#
+#FROM bellsoft/liberica-openjdk-alpine:11.0.16 as BuildProject
+#WORKDIR /app
+#COPY ./java ./src
+#RUN mkdir ./out
+#RUN javac -sourcepath ./src -d out ./src/ru/geekbrains/lesson1/sample/Main.java
+#
+#FROM scratch as OutputFiles
+#COPY --from=BuildProject  /app/out /bin
+#
+#>>Запуск скрипта из консоли / терминала: docker buildx build --output type=local,dest=. .
+
+
+FROM bellsoft/liberica-openjdk-alpine:11.0.16 as BuildProject
+WORKDIR /app
+COPY ./bin .
+CMD java -classpath . ru.geekbrains.lesson1.sample.Main
